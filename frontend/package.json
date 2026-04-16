@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
+  "homepage": "https://24f1002739.github.io/Amrutha_Sagar",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
