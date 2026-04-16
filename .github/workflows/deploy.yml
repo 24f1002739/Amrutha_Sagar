@@ -5,10 +5,6 @@ on:
     branches:
       - main
       - master
-  pull_request:
-    branches:
-      - main
-      - master
 
 permissions:
   contents: read
@@ -28,10 +24,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
@@ -44,21 +40,15 @@ jobs:
         run: cd frontend && npm run build
         env:
           CI: false
-          REACT_APP_BACKEND_URL: 'https://formspree.io'
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          static_site_generator: none
+        uses: actions/configure-pages@v3
 
-      - name: Upload build artifacts
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
           path: './frontend/build'
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v3
-
-      - name: Deployment Success
-        run: echo "✅ Website deployed successfully to GitHub Pages!"
+        uses: actions/deploy-pages@v2
