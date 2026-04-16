@@ -1,0 +1,12 @@
+[build]
+  command = "cd frontend && npm ci && npm run build"
+  publish = "frontend/build"
+
+[build.environment]
+  CI = "false"
+  REACT_APP_BACKEND_URL = "https://formspree.io"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
