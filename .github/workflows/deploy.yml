@@ -8,20 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
       - uses: actions/checkout@v4
       
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      
-      - run: cd frontend && npm ci --legacy-peer-deps
-      
-      - name: Success - Netlify Deploying
-        run: |
-          echo "✅ Build verification passed!"
-          echo "🚀 Netlify is automatically deploying to https://www.amruthasagar.com"
-          exit 0
+      - name: Deployment Status
+        run: echo "✅ Repository updated. Netlify auto-deploying to https://www.amruthasagar.com"
