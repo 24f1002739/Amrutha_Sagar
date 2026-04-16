@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
@@ -19,6 +21,8 @@ jobs:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: 'frontend/package-lock.json'
+        env:
+          ACTIONS_ALLOW_UNSECURE_NODE_VERSION: true
 
       - name: Install dependencies
         run: cd frontend && npm ci
@@ -29,6 +33,16 @@ jobs:
           CI: false
 
       - name: Deploy to GitHub Pages
-        run: cd frontend && npm run deploy
-        env:
-          CI: false
+        run: |
+          cd frontend
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add build -f
+          git stash
+          git fetch origin gh-pages 2>/dev/null || true
+          git checkout gh-pages 2>/dev/null || git checkout --orphan gh-pages
+          git rm -rf . 2>/dev/null || true
+          git stash pop
+          git add -A
+          git commit -m "Deploy: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || true
+          git push -u origin gh-pages --force
