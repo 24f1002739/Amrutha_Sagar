@@ -45,6 +45,7 @@ jobs:
         env:
           CI: false
           REACT_APP_BACKEND_URL: 'https://formspree.io'
+          NODE_OPTIONS: '--loader=tsx --experimental-specifier-resolution=node'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
