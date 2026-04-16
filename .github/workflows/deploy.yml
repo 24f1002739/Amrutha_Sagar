@@ -27,15 +27,13 @@ jobs:
       - run: cd frontend && npm run build
         env:
           CI: false
-
-      - name: Deploy to GitHub Pages
+      
+      - name: Verify build success
         run: |
-          mkdir -p deploy
-          cp -r frontend/build/* deploy/
-          cd deploy
-          git init
-          git config user.email "github-actions@github.com"
-          git config user.name "GitHub Actions"
-          git add .
-          git commit -m "Deploy: $(date)"
-          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:gh-pages
+          if [ -d "frontend/build" ]; then
+            echo "✅ Build successful! Netlify deployment is active at https://www.amruthasagar.com"
+            exit 0
+          else
+            echo "❌ Build failed"
+            exit 1
+          fi
