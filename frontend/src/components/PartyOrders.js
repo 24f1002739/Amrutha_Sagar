@@ -5,7 +5,7 @@ import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { Label } from "../components/ui/label";
 
-const FORMSPREE_ID = "https://formspree.io/f/xkokodzw"; // Replace with your Formspree ID
+const FORMSPREE_ID = "xkokodzw"; // Replace with your Formspree ID
 
 export default function PartyOrders() {
   const [form, setForm] = useState({ customer_name: "", email: "", mobile: "", event_date: "", num_people: "", requirements: "" });

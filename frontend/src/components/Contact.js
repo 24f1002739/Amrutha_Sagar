@@ -7,7 +7,7 @@ import { Label } from "../components/ui/label";
 
 const MAPS_EMBED = "https://maps.google.com/maps?q=Amrutha+Sagar+Veg+Restaurant,+Hosur&t=&z=15&ie=UTF8&iwloc=&output=embed";
 
-const FORMSPREE_ID = "https://formspree.io/f/xlgagqno"; // Replace with your Formspree ID
+const FORMSPREE_ID = "xlgagqno"; // Replace with your Formspree ID
 
 const INFO = [
   { icon: MapPin, label: "Address", value: "No.75, Tank St, near Gandhi Statue, Hosur, Tamil Nadu 635109" },
