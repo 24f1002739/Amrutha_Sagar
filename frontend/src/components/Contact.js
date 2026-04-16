@@ -28,6 +28,7 @@ export default function Contact() {
     setError("");
     
     try {
+      console.log("Submitting to Formspree with ID:", FORMSPREE_ID);
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: {
@@ -37,19 +38,27 @@ export default function Contact() {
           name: form.name,
           email: form.email,
           message: form.message,
+          "_replyto": form.email,
+          "_subject": "Contact Confirmation - Amrutha Sagar",
+          "_next": "https://www.amruthasagar.com/?success=contact",
         }),
       });
+
+      console.log("Response status:", response.status, response.statusText);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response data:", data);
 
       if (response.ok) {
         setSubmitted(true);
         setForm({ name: "", email: "", message: "" });
         console.log("✅ Message sent successfully!");
       } else {
-        setError("Failed to send message. Please try again.");
-        console.error("Form submission error:", response.statusText);
+        const errorMsg = data.error || data.message || response.statusText || "Failed to send message";
+        setError(`Error: ${errorMsg}`);
+        console.error("Form submission error:", response.status, errorMsg, data);
       }
     } catch (err) {
-      setError("Error sending message. Please check your internet connection.");
+      setError(`Error: ${err.message || 'Unable to send message'}`);
       console.error("Contact error:", err);
     } finally {
       setLoading(false);

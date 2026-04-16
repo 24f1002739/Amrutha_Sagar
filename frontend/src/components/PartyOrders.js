@@ -19,6 +19,7 @@ export default function PartyOrders() {
     setError("");
     
     try {
+      console.log("Submitting to Formspree with ID:", FORMSPREE_ID);
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: {
@@ -31,19 +32,27 @@ export default function PartyOrders() {
           "Event Date": form.event_date,
           "Number of People": form.num_people,
           "Requirements": form.requirements,
+          "_replyto": form.email,
+          "_subject": "Party Order Confirmation - Amrutha Sagar",
+          "_next": "https://www.amruthasagar.com/?success=party",
         }),
       });
+
+      console.log("Response status:", response.status, response.statusText);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response data:", data);
 
       if (response.ok) {
         setSubmitted(true);
         setForm({ customer_name: "", email: "", mobile: "", event_date: "", num_people: "", requirements: "" });
         console.log("✅ Party order submitted successfully!");
       } else {
-        setError("Failed to submit order. Please try again.");
-        console.error("Form submission error:", response.statusText);
+        const errorMsg = data.error || data.message || response.statusText || "Failed to submit order";
+        setError(`Error: ${errorMsg}`);
+        console.error("Form submission error:", response.status, errorMsg, data);
       }
     } catch (err) {
-      setError("Error submitting order. Please check your internet connection.");
+      setError(`Error: ${err.message || 'Unable to submit order'}`);
       console.error("Party order error:", err);
     } finally {
       setLoading(false);
